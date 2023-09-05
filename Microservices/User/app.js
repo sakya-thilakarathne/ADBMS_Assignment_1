@@ -8,7 +8,7 @@ const PORT = 3003;
 const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: 'root', // Empty password
+  password: 'test', // Empty password
   database: 'inventory',
 });
 
