@@ -53,8 +53,7 @@ async function getOrderDetailsById(req, res) {
     }
   }
   
-
-async function updateOrder(req, res) {
+  async function updateOrder(req, res) {
     try {
       const order_id = req.params.orderId;
       const { customer_id, order_item_id, quantity, total_cost, order_date } = req.body;
@@ -70,17 +69,18 @@ async function updateOrder(req, res) {
   
       // Update the order
       const updateQuery = `
-        UPDATE ${OrderSchema.name}
+        UPDATE orders
         SET customer_id = @customer_id, order_item_id = @order_item_id, quantity = @quantity,
             total_cost = @total_cost, order_date = @order_date
         WHERE order_id = @order_id;
       `;
       await pool.request()
-      .input('customer_id ', sql.Int, customer_id)
-      .input('order_item_id ', sql.Int, order_item_id)
-      .input('quantity ', sql.Int, quantity)
-      .input('total_cost', sql.Decimal(10, 2), total_cost)
-      .input('order_date', sql.DateTime, order_date) 
+        .input('customer_id', sql.Int, customer_id)
+        .input('order_item_id', sql.Int, order_item_id)
+        .input('quantity', sql.Int, quantity)
+        .input('total_cost', sql.Decimal(10, 2), total_cost)
+        .input('order_date', sql.DateTime, order_date) 
+        .input('order_id', sql.Int, order_id)  // Add this line to input the order_id parameter
         .query(updateQuery);
   
       res.json({ message: 'Order updated successfully' });
@@ -89,7 +89,7 @@ async function updateOrder(req, res) {
       res.status(500).json({ error: 'Error updating order' });
     }
   }
-
+  
 async function deleteOrder(req, res) {
     try {
       const order_id = req.params.orderId;

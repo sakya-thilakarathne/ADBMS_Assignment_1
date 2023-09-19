@@ -4,9 +4,12 @@ const Inventory = require('../Model/InventoryModel');
 exports.createInventoryItem = async (req, res) => {
   try {
     const inventoryItem = new Inventory(req.body);
+    console.log('Inventory Item Data:', req.body); // Log the received data
     await inventoryItem.save();
+    console.log('Inventory Item Saved:', inventoryItem); // Log the saved item
     res.status(201).json(inventoryItem);
   } catch (error) {
+    console.error('Error creating inventory item:', error); // Log the error
     res.status(500).json({ error: 'Could not create inventory item' });
   }
 };
@@ -55,6 +58,7 @@ exports.updateInventoryItemById = async (req, res) => {
 exports.deleteInventoryItemById = async (req, res) => {
   try {
     const inventoryItem = await Inventory.findByIdAndRemove(req.params.id);
+    res.json({ message: 'inventory deleted successfully' });
     if (!inventoryItem) {
       return res.status(404).json({ error: 'Inventory item not found' });
     }

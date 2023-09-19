@@ -3,7 +3,7 @@ const router = express.Router();
 const InventoryController = require('../Controller/InventoryController');
 
 // Create a new inventory item
-router.post('/', InventoryController.createInventoryItem);
+router.post('/create', InventoryController.createInventoryItem);
 
 // Get all inventory items
 router.get('/getAll', InventoryController.getAllInventoryItems);

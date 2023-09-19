@@ -15,7 +15,7 @@ db.on('error', (error) => {
 });
 
 db.once('open', () => {
-  console.log('Connected to MongoDB');
+  console.log('Inventory Connected to MongoDB');
 });
 
 module.exports = db; // Export the database connection object, not mongoose itself
