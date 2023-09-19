@@ -30,29 +30,29 @@ async function getOrderDetailsById(req, res) {
     }
   }
 
-async function createOrder(req, res) {
-  try {
-    const { customer_id, order_item_id, quantity, total_cost, order_date } = req.body;
-    const pool = await sql.connect(dbConnection);
-
-    const query = `INSERT INTO orders (customer_id, order_item_id, quantity, total_cost, order_date)
-                   VALUES ( @customer_id, @order_item_id, @quantity, @total_cost, @order_date);`;
-
-    const result = await pool.request()
-      
-      .input('customer_id ', sql.Int, customer_id)
-      .input('order_item_id ', sql.Int, order_item_id)
-      .input('quantity ', sql.Int, quantity)
-      .input('total_cost', sql.Decimal(10, 2), total_cost)
-      .input('order_date', sql.DateTime, order_date)      
-      .query(query);
-
-    res.json({ message: 'Order created successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error creating order' });
+  async function createOrder(req, res) {
+    try {
+      const { customer_id, order_item_id, quantity, total_cost, order_date } = req.body;
+      const pool = await sql.connect(dbConnection);
+  
+      const query = `INSERT INTO orders (customer_id, order_item_id, quantity, total_cost, order_date)
+                     VALUES (@customer_id, @order_item_id, @quantity, @total_cost, @order_date);`;
+  
+      const result = await pool.request()
+        .input('customer_id', sql.Int, customer_id)
+        .input('order_item_id', sql.Int, order_item_id)
+        .input('quantity', sql.Int, quantity)
+        .input('total_cost', sql.Decimal(10, 2), total_cost)
+        .input('order_date', sql.DateTime, order_date)      
+        .query(query);
+  
+      res.json({ message: 'Order created successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error creating order' });
+    }
   }
-}
+  
 
 async function updateOrder(req, res) {
     try {
