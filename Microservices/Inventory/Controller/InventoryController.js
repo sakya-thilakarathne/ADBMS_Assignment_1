@@ -28,12 +28,11 @@ exports.getAllInventoryItems = async (req, res) => {
 exports.getInventoryItemById = async (req, res) => {
   try {
     const inventoryItem = await Inventory.findById(req.params.id);
-    if (!inventoryItem) {
-      return res.status(404).json({ error: 'Inventory item not found' });
-    }
-    res.status(200).json(inventoryItem);
+    
+    // Modify the response to include a message when the item is found
+    res.status(200).json({ message: 'Inventory Item Updated', data: inventoryItem });
   } catch (error) {
-    res.status(500).json({ error: 'Could not fetch inventory item' });
+    res.status(500).json({ error: 'Inventory item not found' });
   }
 };
 
